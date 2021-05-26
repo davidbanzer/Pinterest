@@ -20,7 +20,8 @@ class TableroController extends Controller
 
     public function index()
     {
-        //
+        $listaTableros = Tablero::with('users')->get();
+        return view('tableros.lista', compact('listaTableros'));
     }
 
     /**

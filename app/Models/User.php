@@ -22,6 +22,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function tableros()
+    {
+        return $this->hasMany(Tablero::class, 'usuario_id');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

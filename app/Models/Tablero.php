@@ -9,4 +9,8 @@ class Tablero extends Model
 {
     use HasFactory;
     protected $fillable = ['nombre', 'usuario_id'];
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'usuario_id');
+    }
 }
