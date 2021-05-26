@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Tablero extends Model
 {
     use HasFactory;
+    protected $fillable = ['nombre', 'usuario_id'];
 }

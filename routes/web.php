@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PinController;
+use App\Http\Controllers\TableroController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('/tableros', TableroController::class);
+Route::resource('/pins', PinController::class);
 
 Auth::routes();
 

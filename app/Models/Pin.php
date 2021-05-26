@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Pin extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['titulo', 'imagen', 'url', 'tablero_id', 'usuario_id'];
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tablero;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TableroController extends Controller
 {
@@ -12,6 +13,11 @@ class TableroController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         //
@@ -20,22 +26,31 @@ class TableroController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return
      */
     public function create()
     {
-        //
+        return view('tableros.form');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre' => ['required', 'string'],
+            'usuario_id' => ['required', 'int']
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $objTablero = Tablero::create($request->all());
+        $objTablero->save();
+        return response()->redirectTo('/tableros');
     }
 
     /**
