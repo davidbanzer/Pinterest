@@ -69,11 +69,15 @@ class TableroController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Tablero  $tablero
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function edit(Tablero $tablero)
+    public function edit($id)
     {
-        //
+        $objTablero= Tablero::find($id);
+        if ($objTablero == null) {
+            return response()->redirectTo('/tableros');
+        }
+        return view('tableros.edit', compact('objTablero'));
     }
 
     /**
@@ -81,11 +85,30 @@ class TableroController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Tablero  $tablero
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Tablero $tablero)
+    public function update(Request $request, $id)
     {
-        //
+        $objTablero = Tablero::find($id);
+        if ($objTablero == null) {
+            return response()->redirectTo('/tableros');
+        }
+        $validator = Validator::make($request->all(), [
+            'nombre' => ['string'],
+            'usuario_id' => ['int']
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        if ($request->get('nombre') != null) {
+            $objTablero->nombre = $request->get('nombre');
+        }
+        if ($request->get('usuario_id') != null) {
+            $objTablero->usuario_id = $request->get('usuario_id');
+        }
+
+        $objTablero->save();
+        return response()->redirectTo('/tableros');
     }
 
     /**
@@ -94,8 +117,13 @@ class TableroController extends Controller
      * @param  \App\Models\Tablero  $tablero
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tablero $tablero)
+    public function destroy($id)
     {
-        //
+        $objTablero = Tablero::find($id);
+        if ($objTablero == null) {
+            return response()->redirectTo('/tableros');
+        }
+        $objTablero->delete();
+        return response()->redirectTo('/tableros');
     }
 }
