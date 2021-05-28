@@ -13,6 +13,7 @@ class CreateTablerosTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('tableros');
         Schema::create('tableros', function (Blueprint $table) {
             $table->id();
             $table->string("nombre");

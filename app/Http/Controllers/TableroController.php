@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tablero;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TableroController extends Controller
@@ -18,10 +19,11 @@ class TableroController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(request $request)
     {
+        $texto = $request->get('texto');
         $listaTableros = Tablero::with('users')->get();
-        return view('tableros.lista', compact('listaTableros'));
+        return view('tableros.lista', compact('listaTableros','texto'));
     }
 
     /**

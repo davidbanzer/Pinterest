@@ -13,14 +13,16 @@ class CreatePinsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('pins');
         Schema::create('pins', function (Blueprint $table) {
             $table->id();
             $table->string("titulo");
             $table->string("imagen");
             $table->string("url");
-            $table->integer("tablero_id");
-            $table->integer("usuario_id");
+            $table->bigInteger("tablero_id")->unsigned();
+            $table->bigInteger("usuario_id");
             $table->timestamps();
+            $table->foreign('tablero_id')->references('id')->on('tableros')->onDelete('cascade');
         });
     }
 

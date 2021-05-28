@@ -13,4 +13,8 @@ class Tablero extends Model
     {
         return $this->belongsTo(User::class, 'usuario_id');
     }
+    public function pins()
+    {
+        return $this->hasMany(Pin::class,'tablero_id');
+    }
 }

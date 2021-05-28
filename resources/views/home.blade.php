@@ -14,7 +14,11 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    @if(auth()->id() != null)
+                        <div>Estás loggeado con {{ Auth::user()->name }}</div>
+                        @else
+                        <div>Inicie Sesión</div>
+                        @endif
                 </div>
             </div>
         </div>

@@ -67,6 +67,20 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Pins
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown1">
+                                    <a class="dropdown-item" href="{{ route('pins.index') }}">
+                                        Lista de Pins
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('pins.create') }}">
+                                        Crear Pin
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>

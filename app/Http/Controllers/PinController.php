@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pin;
+use App\Models\Tablero;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PinController extends Controller
 {
@@ -19,28 +21,47 @@ class PinController extends Controller
 
     public function index()
     {
-        //
+        $listaPins = Pin::with('users','tableros')->get();
+        return view('pins.lista',compact('listaPins'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $listaTableros = Tablero::all();
+        return view('pins.form',compact('listaTableros'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
-    {
-        //
+    function store(Request $request){
+        $nombre = time().'.'.$request->file('file')->extension();
+
+        $request->file('file')->move(public_path('images'), $nombre);
+
+        $validator = Validator::make($request->all(),[
+            'titulo'=>['required', 'string'],
+            'url'=>['required', 'string'],
+            'tablero_id'=>['required', 'int'],
+            'usuario_id'=>['required', 'int']
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $request->merge([
+            'imagen' =>$nombre
+        ]);
+        $objPin = Pin::create($request->all());
+        $objPin->save();
+        return response()->redirectTo(route('pins.index'));
     }
 
     /**

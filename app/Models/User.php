@@ -26,6 +26,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tablero::class, 'usuario_id');
     }
+    public function pins(){
+        return $this->hasMany(Pin::class,'usuario_id');
+    }
 
     /**
      * The attributes that should be hidden for arrays.
