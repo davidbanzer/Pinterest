@@ -22,8 +22,10 @@ class TableroController extends Controller
     public function index(request $request)
     {
         $texto = $request->get('texto');
-        $listaTableros = Tablero::with('users')->get();
-        return view('tableros.lista', compact('listaTableros','texto'));
+        $listaTableros = DB::table('tableros')
+            ->leftJoin('users', 'tableros.usuario_id', '=', 'users.id')->select('tableros.id as tablero_id','tableros.nombre','tableros.usuario_id','users.id as usuario_id','users.name')->where('nombre','LIKE','%'.$texto.'%')
+            ->get();//Tablero::with('users')->get();
+        return view('tableros.lista', compact('listaTableros'));
     }
 
     /**

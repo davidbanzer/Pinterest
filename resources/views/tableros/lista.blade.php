@@ -21,10 +21,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">{{$objTablero->nombre}}</h4>
-                                <p class="card-text">Creado por: {{$objTablero->users->name}}</p>
-                                <a href="{{route('pins.all',$objTablero->id)}}">Ver Pins</a>
-                                @if(auth()->id() == $objTablero->users->id)
-                                    <form method="POST" action="{{ route('tableros.destroy',$objTablero->id) }}">
+                                <p class="card-text">Creado por: {{$objTablero->name}}</p>
+                                <a href="{{route('pins.all',$objTablero->tablero_id)}}">Ver Pins</a>
+                                @if(auth()->id() == $objTablero->usuario_id)
+                                    <form method="POST" action="{{ route('tableros.destroy',$objTablero->tablero_id) }}">
                                         @csrf
                                         @method("DELETE")
                                         <input type="submit" class="btn text-dark float-right"
@@ -32,7 +32,7 @@
                                                value="Eliminar"/>
                                     </form>
                                     <p class="btn float-right "><a class="text-dark text-decoration-none"
-                                                                   href="{{ route('tableros.edit',$objTablero->id) }}">Editar</a>
+                                                                   href="{{ route('tableros.edit',$objTablero->tablero_id) }}">Editar</a>
                                     </p>
                                 @endif
 

@@ -20,10 +20,11 @@ class PinController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $texto = $request->get('texto');
         $listaPins = DB::table('pins')
-            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')
+            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->where('titulo','LIKE','%'.$texto.'%')
             ->get();
         return view('pins.lista',compact('listaPins'));
     }
