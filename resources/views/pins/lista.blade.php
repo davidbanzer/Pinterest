@@ -25,8 +25,8 @@
                             <div class="card-body">
                                 <h4 class="card-title">{{$objPin->titulo}}</h4>
                                 <p class="card-text">Creado por: {{$objPin->name}}</p>
-                                @if(auth()->id() == $objPin->id)
-                                    <form method="POST" action="{{ route('pins.destroy',$objPin->id) }}">
+                                @if(auth()->id() == $objPin->user_id)
+                                    <form method="POST" action="{{ route('pins.destroy',$objPin->pin_id) }}">
                                         @csrf
                                         @method("DELETE")
                                         <input type="submit" class="btn text-dark float-right"
@@ -34,7 +34,7 @@
                                                value="Eliminar"/>
                                     </form>
                                     <p class="btn float-right "><a class="text-dark text-decoration-none"
-                                                                   href="{{ route('pins.edit',$objPin->id) }}">Editar</a>
+                                                                   href="{{ route('pins.edit',$objPin->pin_id) }}">Editar</a>
                                     </p>
                                 @endif
 

@@ -24,7 +24,7 @@ class PinController extends Controller
     {
         $texto = $request->get('texto');
         $listaPins = DB::table('pins')
-            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->where('titulo','LIKE','%'.$texto.'%')
+            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->select('pins.id as pin_id','pins.titulo','pins.imagen','pins.url','pins.tablero_id','pins.usuario_id','users.id as user_id','users.name')->where('titulo','LIKE','%'.$texto.'%')
             ->get();
         return view('pins.lista',compact('listaPins'));
     }
@@ -83,11 +83,13 @@ class PinController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Pin  $pin
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function edit(Pin $pin)
+    public function edit($id)
     {
-        //
+        $listaTableros = Tablero::all();
+        $objPin= Pin::find($id);
+        return view('pins.edit', compact('objPin','listaTableros'));
     }
 
     /**
@@ -122,7 +124,7 @@ class PinController extends Controller
     {
 
         $listaPins = DB::table('pins')
-            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->where('tablero_id','=',$id)
+            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->select('pins.id as pin_id','pins.titulo','pins.imagen','pins.url','pins.tablero_id','pins.usuario_id','users.id as user_id','users.name')->where('tablero_id','=',$id)
             ->get();
         return view('pins.lista',compact('listaPins'));
     }
@@ -130,7 +132,7 @@ class PinController extends Controller
     public function myPins($id)
     {
         $listaPins = DB::table('pins')
-            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->where('usuario_id','=',$id)
+            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->select('pins.id as pin_id','pins.titulo','pins.imagen','pins.url','pins.tablero_id','pins.usuario_id','users.id as user_id','users.name')->where('usuario_id','=',$id)
             ->get();
         return view('pins.lista',compact('listaPins'));
     }

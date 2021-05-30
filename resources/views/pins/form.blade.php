@@ -72,7 +72,7 @@
                                    class="form-control" name="usuario_id"
                                    value="{{auth()->user()->id}}" required>
 
-                            <input  type="hidden" id="imagen"
+                            <input type="hidden" id="imagen"
                                    class="form-control" name="imagen" required>
 
                             <div class="form-group">
