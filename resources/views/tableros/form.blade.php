@@ -32,7 +32,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Guardar Datos
                                 </button>&nbsp;
-                                <a href="#">Cancelar</a>
+                                <a href="{{route('tableros.index')}}">Cancelar</a>
                             </div>
                         </form>
                     </div>

@@ -117,7 +117,7 @@ class TableroController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Tablero  $tablero
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -128,4 +128,5 @@ class TableroController extends Controller
         $objTablero->delete();
         return response()->redirectTo('/tableros');
     }
+
 }

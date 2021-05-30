@@ -20,22 +20,21 @@
                         <div class="card">
                             <a href="{{$objPin->url}}" target="_blank">
                                 <img class="card-img-top" height="250" width="250"
-                                     src="images/{{$objPin->imagen}}">
+                                     src="../images/{{$objPin->imagen}}">
                             </a>
                             <div class="card-body">
                                 <h4 class="card-title">{{$objPin->titulo}}</h4>
-                                <p class="card-text">Tablero: {{$objPin->tableros->nombre}}</p>
-                                <p class="card-text">Creado por: {{$objPin->users->name}}</p>
-                                @if(auth()->id() == $objPin->users->id)
-                                    <form method="POST" action="{{ route('tableros.destroy',$objPin->id) }}">
+                                <p class="card-text">Creado por: {{$objPin->name}}</p>
+                                @if(auth()->id() == $objPin->id)
+                                    <form method="POST" action="{{ route('pins.destroy',$objPin->id) }}">
                                         @csrf
                                         @method("DELETE")
                                         <input type="submit" class="btn text-dark float-right"
-                                               onclick="return confirm('¿Está seguro que desea eliminar el tablero?')"
+                                               onclick="return confirm('¿Está seguro que desea eliminar el pin?')"
                                                value="Eliminar"/>
                                     </form>
                                     <p class="btn float-right "><a class="text-dark text-decoration-none"
-                                                                   href="{{ route('tableros.edit',$objPin->id) }}">Editar</a>
+                                                                   href="{{ route('pins.edit',$objPin->id) }}">Editar</a>
                                     </p>
                                 @endif
 

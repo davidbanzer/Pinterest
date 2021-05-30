@@ -21,7 +21,8 @@ Route::get('/', function () {
 
 Route::resource('/tableros', TableroController::class);
 Route::resource('/pins', PinController::class);
-
+Route::get('/all_pins/{id}',[PinController::class,'pinsPorTableros'])->name('pins.all');
+Route::get('/my_pins/{id}',[PinController::class,'myPins'])->name('pins.mine');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pin;
 use App\Models\Tablero;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PinController extends Controller
@@ -21,7 +22,9 @@ class PinController extends Controller
 
     public function index()
     {
-        $listaPins = Pin::with('users','tableros')->get();
+        $listaPins = DB::table('pins')
+            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')
+            ->get();
         return view('pins.lista',compact('listaPins'));
     }
 
@@ -102,10 +105,32 @@ class PinController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Pin  $pin
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Pin $pin)
+    public function destroy($id)
     {
-        //
+        $objPin = Pin::find($id);
+        if ($objPin == null) {
+            return response()->redirectTo('/pins');
+        }
+        $objPin->delete();
+        return response()->redirectTo('/pins');
+    }
+
+    public function pinsPorTableros($id)
+    {
+
+        $listaPins = DB::table('pins')
+            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->where('tablero_id','=',$id)
+            ->get();
+        return view('pins.lista',compact('listaPins'));
+    }
+
+    public function myPins($id)
+    {
+        $listaPins = DB::table('pins')
+            ->leftJoin('users', 'pins.usuario_id', '=', 'users.id')->where('usuario_id','=',$id)
+            ->get();
+        return view('pins.lista',compact('listaPins'));
     }
 }

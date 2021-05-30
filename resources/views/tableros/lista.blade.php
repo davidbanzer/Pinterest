@@ -22,6 +22,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">{{$objTablero->nombre}}</h4>
                                 <p class="card-text">Creado por: {{$objTablero->users->name}}</p>
+                                <a href="{{route('pins.all',$objTablero->id)}}">Ver Pins</a>
                                 @if(auth()->id() == $objTablero->users->id)
                                     <form method="POST" action="{{ route('tableros.destroy',$objTablero->id) }}">
                                         @csrf
