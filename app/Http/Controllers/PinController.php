@@ -97,11 +97,47 @@ class PinController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Pin  $pin
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Pin $pin)
+    public function update(Request $request, $id)
     {
-        //
+        $nombre = time().'.'.$request->file('file')->extension();
+        $request->file('file')->move(public_path('images'), $nombre);
+
+        $objPin = Pin::find($id);
+        if ($objPin == null) {
+            return response()->redirectTo('/pins');
+        }
+        $validator = Validator::make($request->all(),[
+            'titulo'=>['required', 'string'],
+            'url'=>['required', 'string'],
+            'tablero_id'=>['required', 'int'],
+            'usuario_id'=>['required', 'int']
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $request->merge([
+            'imagen' =>$nombre
+        ]);
+        if ($request->get('titulo') != null) {
+            $objPin->titulo = $request->get('titulo');
+        }
+        if ($request->get('imagen') != null) {
+            $objPin->imagen = $request->get('imagen');
+        }
+        if ($request->get('url') != null) {
+            $objPin->url = $request->get('url');
+        }
+        if ($request->get('tablero_id') != null) {
+            $objPin->tablero_id = $request->get('tablero_id');
+        }
+        if ($request->get('usuario_id') != null) {
+            $objPin->usuario_id = $request->get('usuario_id');
+        }
+
+        $objPin->save();
+        return response()->redirectTo('/pins');
     }
 
     /**
